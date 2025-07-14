@@ -1,11 +1,19 @@
 import panel as pn
-from youtube_dashboard import get_interactive_dashboard_app
+from youtube_dashboard import create_interactive_dashboard
 
 pn.extension('plotly')
 print("MAIN.PY SERVER STARTING UP...")
 
 def app():
-    return get_interactive_dashboard_app()
+    return create_interactive_dashboard(
+        metric='log_views',
+        catFilters=['Music'],
+        countryFilters=['US', 'CA', 'GB'],
+        bins=50,
+        xAxisMetric='log_likes',
+        xAxisDate='publish_time',
+        periodRollup='Weekly'
+    )
 
 if __name__ == "__main__":
     pn.serve(
