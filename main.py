@@ -1,28 +1,16 @@
 import panel as pn
-pn.extension('plotly')
+from youtube_dashboard import get_interactive_dashboard_app
 
-from youtube_dashboard import create_interactive_dashboard
+pn.extension('plotly')
+print("🔧 MAIN.PY SERVER STARTING UP...")
 
 def app():
-    return create_interactive_dashboard(
-        metric='log_views',
-        catFilters=['Music'],
-        countryFilters=['US', 'CA', 'GB'],
-        bins=50,
-        xAxisMetric='log_likes',
-        xAxisDate='publish_time',
-        periodRollup='Weekly'
-    )
+    return get_interactive_dashboard_app()
 
-# This allows both local use (panel serve main.py) and Render use
-dashboard = app()
-dashboard.servable()
-
-# Optional: keep this for direct script execution, but not required by Render
 if __name__ == "__main__":
     pn.serve(
-        {'/': app},
-        port=10000,
+        {'/main': app},
         address="0.0.0.0",
+        port=10000,
         allow_websocket_origin=["siads521-youtube-dashboard.onrender.com"]
     )
