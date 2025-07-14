@@ -1260,7 +1260,7 @@ dashboard
 #@pn.depends(yAxisDropdown, categoryCheckbox,countryCheckbox,binsField,
 #            xAxisScatterDropdown,xAxisLineDropdown,PeriodRollupRadio)
 def create_interactive_dashboard(metric, catFilters, countryFilters, 
-                     bins, xAxisMetric, xAxisDate, periodRollup, controlPanel):
+                     bins, xAxisMetric, xAxisDate, periodRollup):
     """
     Constructs and returns an interactive Panel dashboard based on selected widget values.
 
@@ -1300,7 +1300,7 @@ def create_interactive_dashboard(metric, catFilters, countryFilters,
 
 
     return pn.Column(
-        controlPanel,
+#        controlPanel,
         pn.Spacer(height=20),
         dashboard,
         sizing_mode='stretch_both')
