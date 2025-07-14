@@ -87,9 +87,6 @@ import plotly.graph_objs as go
 
 import panel as pn        # We're going to use Panel for dashboarding
 
-# Let's enable Panel for use in a dashboard
-pn.extension('plotly')
-
 # Set default renderer for Plotly figures in notebooks.
 # "iframe" ensures isolated, static rendering (more stable across environments),
 # while "notebook_connected" enables dynamic interaction but can fail in restricted environments like Vocareum.
@@ -1167,6 +1164,10 @@ def create_dashboard(df, metric='log_views', catFilters=None, countryFilters=Non
     - Intended for display in Jupyter notebooks or as a standalone Panel app.
     """
 
+
+    # Let's enable Panel for use in a dashboard
+    pn.extension('plotly')
+
     # 2nd, let's retrieve all the Plotly charts based on the arguments passed
     fig_histogram = plot_histogram(df=df, y_axis=metric, bins=bins, 
 	countryFilters=countryFilters, catFilters=catFilters, show=False) 
@@ -1413,30 +1414,22 @@ def create_interactive_dashboard(metric, catFilters, countryFilters,
 
 # Defining an onSubmit event because it is a pain deselecting category buttons. 
 # Comment this code out and uncomment the code above to switch from event-based mode to reactive mdoe (which is kinda slow)
-def get_interactive_dashboard_app():
-    # All your widget and control panel definitions...
-    ...
+def on_submit(event):
+    dashboard = create_interactive_dashboard(
+        metric=yAxisDropdown.value,
+        catFilters=categoryCheckbox.value,
+        countryFilters=countryCheckbox.value,
+        bins=binsField.value,
+        xAxisMetric=xAxisScatterDropdown.value,
+        xAxisDate=xAxisLineDropdown.value,
+        periodRollup=PeriodRollupRadio.value
+    )
+    dashboard_container.objects = [dashboard]
 
-    dashboard_container = pn.Column()
-    
-    def on_submit(event):
-        dashboard = create_interactive_dashboard(
-            metric=yAxisDropdown.value,
-            catFilters=categoryCheckbox.value,
-            countryFilters=countryCheckbox.value,
-            bins=binsField.value,
-            xAxisMetric=xAxisScatterDropdown.value,
-            xAxisDate=xAxisLineDropdown.value,
-            periodRollup=PeriodRollupRadio.value
-        )
-        dashboard_container.objects = [controlPanel, pn.Spacer(height=20), dashboard]
-
-    submitButton.on_click(on_submit)
-
-    # Trigger initial render
-    on_submit(None)
-    
-    return dashboard_container
+submitButton.on_click(on_submit)
+dashboard_container = pn.Column()
+on_submit(None)  # Renders once with default values
+dashboard_container.servable()
 
 
 # # Success!
@@ -1485,7 +1478,3 @@ def get_interactive_dashboard_app():
 
 
 # In[ ]:
-
-
-
-
