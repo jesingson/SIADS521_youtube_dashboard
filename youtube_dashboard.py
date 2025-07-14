@@ -184,7 +184,12 @@ def load_yt_country_data(country:str, verbose=False):
         The processed DataFrame for the specified country's trending YouTube videos.
     """
 
-    df = pd.read_csv(f"youtube_data/{country}videos.csv", encoding="latin1", parse_dates=["publish_time"])
+    df = pd.read_csv(f"youtube_data/{country}videos.csv", encoding="latin1", parse_dates=["publish_time"],nrows=20000)
+
+    # Drop the tags, thumbnail_link and description to save on memory
+    df.drop("tags", inplace=True, axis=1)
+    df.drop("thumbnail_link", inplace=True, axis=1)
+    df.drop("description", inplace=True, axis=1)
 
     # Trending_date is in a weird format. Will need to parse that after TODO
     df['trending_date'] = pd.to_datetime(df['trending_date'], format='%y.%d.%m')
