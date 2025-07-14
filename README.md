@@ -1,6 +1,8 @@
 # YouTube Trending Dashboard
 
-An interactive data dashboard built using Panel, Plotly, and Jupyter, visualizing trends across trending YouTube videos in the US, CA, and GB.
+This project is an interactive data dashboard built using Panel, Plotly, and Jupyter, 
+visualizing trends from a subset of YouTube trending videos in the US, CA, and GB — 
+based on the publicly available [YouTube Trending Dataset on Kaggle](https://www.kaggle.com/datasets/datasnaek/youtube-new).
 
 ## 📁 Project Repository
 You can find all source code, notebooks, and deployment files in the public GitHub repository:
