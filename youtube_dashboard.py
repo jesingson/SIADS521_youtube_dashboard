@@ -1416,16 +1416,16 @@ def create_interactive_dashboard(metric, catFilters, countryFilters,
 # Comment this code out and uncomment the code above to switch from event-based mode to reactive mdoe (which is kinda slow)
 def on_submit(event):
 	print("Submit fired!")
-    dashboard = create_interactive_dashboard(
-        metric=yAxisDropdown.value,
-        catFilters=categoryCheckbox.value,
-        countryFilters=countryCheckbox.value,
-        bins=binsField.value,
-        xAxisMetric=xAxisScatterDropdown.value,
-        xAxisDate=xAxisLineDropdown.value,
-        periodRollup=PeriodRollupRadio.value
-    )
-    dashboard_container.objects = [dashboard]
+	dashboard = create_interactive_dashboard(
+		metric=yAxisDropdown.value,
+		catFilters=categoryCheckbox.value,
+		countryFilters=countryCheckbox.value,
+		bins=binsField.value,
+		xAxisMetric=xAxisScatterDropdown.value,
+		xAxisDate=xAxisLineDropdown.value,
+		periodRollup=PeriodRollupRadio.value
+	)
+	dashboard_container.objects = [dashboard]
 
 submitButton.on_click(on_submit)
 dashboard_container = pn.Column()
