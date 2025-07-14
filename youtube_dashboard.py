@@ -1260,7 +1260,7 @@ dashboard
 #@pn.depends(yAxisDropdown, categoryCheckbox,countryCheckbox,binsField,
 #            xAxisScatterDropdown,xAxisLineDropdown,PeriodRollupRadio)
 def create_interactive_dashboard(metric, catFilters, countryFilters, 
-                     bins, xAxisMetric, xAxisDate, periodRollup):
+                     bins, xAxisMetric, xAxisDate, periodRollup, controlPanel):
     """
     Constructs and returns an interactive Panel dashboard based on selected widget values.
 
@@ -1300,7 +1300,7 @@ def create_interactive_dashboard(metric, catFilters, countryFilters,
 
 
     return pn.Column(
-#        controlPanel,
+        controlPanel,
         pn.Spacer(height=20),
         dashboard,
         sizing_mode='stretch_both')
@@ -1422,6 +1422,7 @@ def get_interactive_dashboard_app():
 		)
 	)
 	def on_submit(event):
+		print("Submission event!")
 		dashboard = create_interactive_dashboard(
 			metric=yAxisDropdown.value,
 			catFilters=categoryCheckbox.value,
@@ -1429,14 +1430,15 @@ def get_interactive_dashboard_app():
 			bins=binsField.value,
 			xAxisMetric=xAxisScatterDropdown.value,
 			xAxisDate=xAxisLineDropdown.value,
-			periodRollup=PeriodRollupRadio.value
+			periodRollup=PeriodRollupRadio.value,
+			controlPanel=controlPanel
 		)
 		dashboard_container.objects = [pn.Spacer(height=20), dashboard]
 
 	submitButton.on_click(on_submit)
 	on_submit(None)
 
-	return pn.Column(controlPanel, dashboard_container)
+	return pn.Column(dashboard_container)
 
 # # Success!
 # So we got the interactive dashboard working within Jupyter. Huzzah!There are a l
