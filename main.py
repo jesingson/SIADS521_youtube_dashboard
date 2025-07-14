@@ -4,7 +4,7 @@ from youtube_dashboard import create_interactive_dashboard
 pn.extension('plotly')
 
 def app():
-    dashboard = create_interactive_dashboard(
+    return create_interactive_dashboard(
         metric='log_views',
         catFilters=['Music'],
         countryFilters=['US', 'CA', 'GB'],
@@ -13,12 +13,15 @@ def app():
         xAxisDate='publish_time',
         periodRollup='Weekly'
     )
-    return dashboard
 
-# This tells Render how to serve the app
+# This allows both local use (panel serve main.py) and Render use
+dashboard = app()
+dashboard.servable()
+
+# Optional: keep this for direct script execution, but not required by Render
 if __name__ == "__main__":
     pn.serve(
-        {'/': app},  # Serve the dashboard function
+        {'/': app},
         port=10000,
         address="0.0.0.0",
         allow_websocket_origin=["siads521-youtube-dashboard.onrender.com"]

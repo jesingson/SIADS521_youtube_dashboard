@@ -92,7 +92,7 @@ import panel as pn        # We're going to use Panel for dashboarding
 # while "notebook_connected" enables dynamic interaction but can fail in restricted environments like Vocareum.
 pio.renderers.default = "iframe"  
 
-#display(pn.__version__)
+#print(pn.__version__)
 pd.set_option('display.float_format', '{:.5f}'.format)   # I don't like Panda's default usage of scientific notation
 
 
@@ -155,18 +155,18 @@ unzip_files()
 import pandas as pd
 
 us_df = pd.read_csv("youtube_data/USvideos.csv", encoding="latin1", parse_dates=["publish_time"])
-display(us_df.dtypes)
-display(us_df.info())
-display(us_df.describe())
+print(us_df.dtypes)
+print(us_df.info())
+print(us_df.describe())
 
 # Trending_date is in a weird format. Will need to parse that after TODO
 us_df['trending_date'] = pd.to_datetime(us_df['trending_date'], format='%y.%d.%m')
 
 # publish_time also appears to be backfilled -- we may want to truncate charts
 # only to start at the earlier trend date recorded
-display("Earliest date sample for trending:", us_df['trending_date'].min())
+print("Earliest date sample for trending:", us_df['trending_date'].min())
 
-display(us_df.sample(5))
+print(us_df.sample(5))
 # Everything looks find -- let's read in the JSON file and join it
 
 
@@ -182,19 +182,19 @@ display(us_df.sample(5))
 # Let's quickly inspect the Canada data
 
 ca_df = pd.read_csv("youtube_data/CAvideos.csv", encoding="latin1", parse_dates=["publish_time"])
-display(ca_df.dtypes)
-display(ca_df.info())
-display(ca_df.describe())
+print(ca_df.dtypes)
+print(ca_df.info())
+print(ca_df.describe())
 
 # Trending_date is in a weird format. Will need to parse that after TODO
 ca_df['trending_date'] = pd.to_datetime(ca_df['trending_date'], format='%y.%d.%m')
 
 # publish_time also appears to be backfilled -- we may want to truncate charts
 # only to start at the earlier trend date recorded
-display("Earliest date sample for trending:", ca_df['trending_date'].min())
+print("Earliest date sample for trending:", ca_df['trending_date'].min())
 
 # Final check
-display(ca_df.sample(5))
+print(ca_df.sample(5))
 
 
 # This file also parsed well after several inspections with the sample() function. Interestingly, the number of rows in the dataframe are similar to the US -- but I didn't realize that the dataset automatically picked up the top 200 trending videos (not ALL "trending" video -- whatever "trending" meant for Google) for each country, which would explain why they all ended up relatively the same size.
@@ -207,19 +207,19 @@ display(ca_df.sample(5))
 # Finally, let's bring in GB
 
 gb_df = pd.read_csv("youtube_data/GBvideos.csv", encoding="latin1", parse_dates=["publish_time"])
-display(gb_df.dtypes)
-display(gb_df.info())
-display(gb_df.describe())
+print(gb_df.dtypes)
+print(gb_df.info())
+print(gb_df.describe())
 
 # Trending_date is in a weird format. Will need to parse that after TODO
 gb_df['trending_date'] = pd.to_datetime(gb_df['trending_date'], format='%y.%d.%m')
 
 # publish_time also appears to be backfilled -- we may want to truncate charts
 # only to start at the earlier trend date recorded
-display("Earliest date sample for trending:", gb_df['trending_date'].min())
+print("Earliest date sample for trending:", gb_df['trending_date'].min())
 
 # Final check
-display(gb_df.sample(5))
+print(gb_df.sample(5))
 
 
 # ## Category Inspection
@@ -237,37 +237,37 @@ display(gb_df.sample(5))
 with open("youtube_data/US_category_id.json") as fh:
     us_raw_categories = json.load(fh)
 
-#display(type(us_raw_categories), us_raw_categories)
+#print(type(us_raw_categories), us_raw_categories)
 
     # Create a simplified dictionary of categories
     us_categories = {int(item['id']): item['snippet']['title']  
         for item in us_raw_categories['items']}
 
-display("US Categories", us_categories)
+print("US Categories", us_categories)
 
 # Next, Canada
 with open("youtube_data/CA_category_id.json") as fh:
     ca_raw_categories = json.load(fh)
 
-    #display(type(us_raw_categories), us_raw_categories)
+    #print(type(us_raw_categories), us_raw_categories)
 
     # Create a simplified dictionary of categories
     ca_categories = {int(item['id']): item['snippet']['title']  
     for item in ca_raw_categories['items']}
 
-display("Canada", ca_categories)
+print("Canada", ca_categories)
 
 # Finally, GB
 with open("youtube_data/GB_category_id.json") as fh:
     gb_raw_categories = json.load(fh)
 
-    #display(type(us_raw_categories), us_raw_categories)
+    #print(type(us_raw_categories), us_raw_categories)
 
     # Create a simplified dictionary of categories
     gb_categories = {int(item['id']): item['snippet']['title']  
     for item in ca_raw_categories['items']}
 
-display("Great Britain", gb_categories)
+print("Great Britain", gb_categories)
 
 # Analyzing the category lists, we find that they are mostly aligned with the exception of the US having a
 # 29: 'Nonprofits & Activism' category, while the others don't. Everything else aligns category-wise. Yay!
@@ -314,10 +314,10 @@ def load_yt_country_data(country:str, verbose=False):
     df['trending_date'] = pd.to_datetime(df['trending_date'], format='%y.%d.%m')
 
     if verbose:
-        display(df.dtypes)
-        display(df.info())
-        display(df.describe())
-        display(us_df.sample(5))
+        print(df.dtypes)
+        print(df.info())
+        print(df.describe())
+        print(us_df.sample(5))
 
     return df
 
@@ -349,7 +349,7 @@ def load_category_json(country="US", verbose=False):
         raw_categories = json.load(fh)
 
     if verbose:
-        display(type(us_raw_categories), us_raw_categories)
+        print(type(us_raw_categories), us_raw_categories)
 
     # Create a simplified dictionary of categories
     categories = {int(item['id']): item['snippet']['title']  
@@ -362,7 +362,7 @@ def load_category_json(country="US", verbose=False):
     categories[34] = 'Comedy (Movies)'
 
     if verbose:
-        display(f"{country} Categories", categories)
+        print(f"{country} Categories", categories)
 
     return categories
 
@@ -445,9 +445,9 @@ def load_and_augment_yt_data(verbose=False):
 
     if verbose:
         # For US + CA + GB, we expect 120,746
-        display(f"Shape: {master_df.shape}")
-        display(master_df.dtypes)
-        display(master_df.sample(5))
+        print(f"Shape: {master_df.shape}")
+        print(master_df.dtypes)
+        print(master_df.sample(5))
 
     return master_df
 
@@ -483,7 +483,7 @@ pd.set_option('display.max_columns', None)
 pd.set_option('display.max_rows', None)
 pd.set_option('display.width', 1000)
 
-display(by_country_and_cat)
+print(by_country_and_cat)
 
 
 # There is a surprising number of 0s in the pivot table. For the purposes of keeping our visualization controls simple, we will limit the valid category list to categories that have non-zero values across all three countries. I guess certain categories don't ever go viral...
@@ -510,7 +510,7 @@ valid_categories = ['Film & Animation',
 
 # Sanity check
 missing = [cat for cat in valid_categories if cat not in master_df['category'].unique()]
-display("Missing:", missing)
+print("Missing:", missing)
 
 
 
@@ -647,10 +647,10 @@ def plot_boxplot(df, y_axis, catFilters=None, show=True):
     fig.update_layout(height=400)  # set height to be consistent
 
     if catFilters is not None:
-        display("catFilters", catFilters)
+        print("catFilters", catFilters)
         cat_subset_df = df[df['category'].isin(catFilters)]
     else: 
-        display("No catFilters")
+        print("No catFilters")
         cat_subset_df = df.copy()
 
     for country in cat_subset_df['country'].unique():
@@ -1497,8 +1497,8 @@ def create_interactive_dashboard(metric, catFilters, countryFilters,
         A Panel Column object combining the control panel and the four chart panels (histogram,
         violinplot, scatterplot, line chart), rendered based on user-specified settings.
     """
-    display(f"Bindings. metric={metric}, catFilters={catFilters}, countryFilters={countryFilters}, bins={bins}")
-    display(f"xAxisMetric={xAxisMetric}, xAxisDate={xAxisDate}, periodRollup={periodRollup}")
+    print(f"Bindings. metric={metric}, catFilters={catFilters}, countryFilters={countryFilters}, bins={bins}")
+    print(f"xAxisMetric={xAxisMetric}, xAxisDate={xAxisDate}, periodRollup={periodRollup}")
     dashboard = create_dashboard(df=master_df, 
                                  metric=metric, 
                                  catFilters=catFilters, 
