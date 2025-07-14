@@ -1,8 +1,8 @@
 import panel as pn
+pn.extension('plotly')
+
 import numpy as np
 import plotly.graph_objs as go
-
-pn.extension('plotly')
 
 # Widget: How many points in the sine wave
 points_slider = pn.widgets.IntSlider(name="Number of Points", start=10, end=1000, step=10, value=100)
