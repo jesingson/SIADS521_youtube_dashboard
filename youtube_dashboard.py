@@ -1414,22 +1414,30 @@ def create_interactive_dashboard(metric, catFilters, countryFilters,
 
 # Defining an onSubmit event because it is a pain deselecting category buttons. 
 # Comment this code out and uncomment the code above to switch from event-based mode to reactive mdoe (which is kinda slow)
-def on_submit(event):
-    dashboard = create_interactive_dashboard(
-        metric=yAxisDropdown.value,
-        catFilters=categoryCheckbox.value,
-        countryFilters=countryCheckbox.value,
-        bins=binsField.value,
-        xAxisMetric=xAxisScatterDropdown.value,
-        xAxisDate=xAxisLineDropdown.value,
-        periodRollup=PeriodRollupRadio.value
-    )
-    dashboard_container.objects = [dashboard]
+def get_interactive_dashboard_app():
+    # All your widget and control panel definitions...
+    ...
 
-submitButton.on_click(on_submit)
-dashboard_container = pn.Column()
-on_submit(None)  # Renders once with default values
-dashboard_container.servable()
+    dashboard_container = pn.Column()
+    
+    def on_submit(event):
+        dashboard = create_interactive_dashboard(
+            metric=yAxisDropdown.value,
+            catFilters=categoryCheckbox.value,
+            countryFilters=countryCheckbox.value,
+            bins=binsField.value,
+            xAxisMetric=xAxisScatterDropdown.value,
+            xAxisDate=xAxisLineDropdown.value,
+            periodRollup=PeriodRollupRadio.value
+        )
+        dashboard_container.objects = [controlPanel, pn.Spacer(height=20), dashboard]
+
+    submitButton.on_click(on_submit)
+
+    # Trigger initial render
+    on_submit(None)
+    
+    return dashboard_container
 
 
 # # Success!
