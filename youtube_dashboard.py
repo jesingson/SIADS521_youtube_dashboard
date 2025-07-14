@@ -1429,8 +1429,7 @@ def get_interactive_dashboard_app():
 			bins=binsField.value,
 			xAxisMetric=xAxisScatterDropdown.value,
 			xAxisDate=xAxisLineDropdown.value,
-			periodRollup=PeriodRollupRadio.value,
-			controlPanel=controlPanel
+			periodRollup=PeriodRollupRadio.value
 		)
 		dashboard_container.objects = [pn.Spacer(height=20), dashboard]
 
