@@ -15,10 +15,10 @@ def app():
     )
     return dashboard
 
-# IMPORTANT: This tells Render how to serve the app
+# This tells Render how to serve the app
 if __name__ == "__main__":
     pn.serve(
-        app,
+        {'/': app},  # Serve the dashboard function
         port=10000,
         address="0.0.0.0",
         allow_websocket_origin=["siads521-youtube-dashboard.onrender.com"]
