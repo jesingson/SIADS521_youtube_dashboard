@@ -2,6 +2,7 @@ import panel as pn
 from youtube_dashboard import get_interactive_dashboard_app
 
 pn.extension('plotly')
+print("MAIN.PY SERVER STARTING UP...")
 
 def app():
     return get_interactive_dashboard_app()

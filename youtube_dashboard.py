@@ -87,6 +87,9 @@ import plotly.graph_objs as go
 
 import panel as pn        # We're going to use Panel for dashboarding
 
+# Let's enable Panel for use in a dashboard
+pn.extension('plotly')
+
 # Set default renderer for Plotly figures in notebooks.
 # "iframe" ensures isolated, static rendering (more stable across environments),
 # while "notebook_connected" enables dynamic interaction but can fail in restricted environments like Vocareum.
@@ -1163,10 +1166,6 @@ def create_dashboard(df, metric='log_views', catFilters=None, countryFilters=Non
     - Plots are wrapped in `pn.pane.Plotly` and arranged using `pn.GridSpec`.
     - Intended for display in Jupyter notebooks or as a standalone Panel app.
     """
-
-
-    # Let's enable Panel for use in a dashboard
-    pn.extension('plotly')
 
     # 2nd, let's retrieve all the Plotly charts based on the arguments passed
     fig_histogram = plot_histogram(df=df, y_axis=metric, bins=bins, 
