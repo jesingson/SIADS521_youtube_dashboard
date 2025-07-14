@@ -5,4 +5,4 @@ pandas
 numpy
 jupyterlab
 ipywidgets
-bokeh>=3.3.4,<3.4.0
+bokeh>=3.4.0,<3.5.0
