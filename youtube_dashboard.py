@@ -1306,10 +1306,13 @@ def create_dashboard(df, metric='log_views', catFilters=None, countryFilters=Non
     pn.extension('plotly')
 
     # 2nd, let's retrieve all the Plotly charts based on the arguments passed
-    fig_histogram = plot_histogram(df, metric, bins, countryFilters, catFilters, False) 
-    fig_violin = plot_violinplot(df, metric, catFilters, False)
-    fig_scatter = plot_scatterplot(df, xAxisMetric, metric, catFilters, False)
-    fig_line = plot_linechart(df, xAxisDate, metric, catFilters, periodRollup, False)
+    fig_histogram = plot_histogram(df=df, y_axis=metric, bins=bins, 
+	countryFilters=countryFilters, catFilters=catFilters, show=False) 
+    fig_violin = plot_violinplot(df=df, y_axis=metric, catFilters=catFilters, show=False)
+    fig_scatter = plot_scatterplot(df=df, x_axis=xAxisMetric, y_axis=metric, 
+	catFilters=catFilters, show=False)
+    fig_line = plot_linechart(df=df, x_axis=xAxisDate, y_axis=metric, 
+	catFilters=catFilters, periodRollup=periodRollup, show=False)
 
     # 3rd, we wrap each figure in a Panel pane
     histogram_panel = pn.pane.Plotly(fig_histogram, sizing_mode="stretch_width", height=400)
