@@ -1289,7 +1289,7 @@ xAxisScatterDropdown = pn.widgets.Select(name="X-axis metric for scatterplot",
 # x_axis date (for line) [dropdown]
 xAxisLineDropdown = pn.widgets.Select(name="X-axis date type for lineplot",
                                       options = dateOptions,
-                                      value='Weekly')
+                                      value='trending_date')
 
 # periodRollup (for line) [radio button]
 #PeriodRollupRadio = pn.widgets.RadioButtonGroup(name="Granularity for lineplot",
