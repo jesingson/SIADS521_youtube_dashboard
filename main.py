@@ -16,4 +16,10 @@ def app():
     return dashboard
 
 # IMPORTANT: This tells Render how to serve the app
-pn.serve(app, title="YouTube Dashboard", port=8000, address="0.0.0.0")
+if __name__ == "__main__":
+    pn.serve(
+        app,
+        port=10000,
+        address="0.0.0.0",
+        allow_websocket_origin=["siads521-youtube-dashboard.onrender.com"]
+    )
