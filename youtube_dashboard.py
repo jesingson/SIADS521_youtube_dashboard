@@ -1248,82 +1248,6 @@ dashboard
 # In[32]:
 
 
-# define the y_axis metric [dropdown]
-yAxisDropdown = pn.widgets.Select(name="Primary Metric", 
-                                  options=valid_metrics, 
-                                  value='log_views')
-
-#catFilters [checkbox]
-categoryCheckbox = pn.widgets.CheckBoxGroup(name='Categories',
-                                            options=valid_categories,
-                                            value=valid_categories)
-# Because it's a pain if the dashboard keeps on refreshing when you select/deselect checkboxes
-# I'll add a submit button
-submitButton = pn.widgets.Button(name='Submit', button_type='primary')
-
-#Plot Specific:
-#country filter (for histogram) [checkbox]
-countryCheckbox = pn.widgets.CheckBoxGroup(name="Countries (for histogram)",
-                                           options=list(country_symbol_map.keys()),
-                                           value=list(country_symbol_map.keys()))
-#countryCheckbox = pn.widgets.MultiChoice(name="Countries (for histogram)",
-#                                           options=list(country_symbol_map.keys()),
-#                                           value=list(country_symbol_map.keys()))
-
-# bins (for histogram) [BoundedIntText]
-#binsField = pn.widgets.IntInput(name="Histogram bins",
-#                                value=50,
-#                                start=10,
-#                                end=300)
-binsField = pn.widgets.IntSlider(name="Histogram bins",
-                                 start=10,
-                                 end=300,
-                                 value=50)
-
-# x-axis metric (for scatter) [dropdown]
-xAxisScatterDropdown = pn.widgets.Select(name="X-axis metric for scatterplot",
-                                  options = valid_metrics,
-                                  value='log_likes')
-
-
-# x_axis date (for line) [dropdown]
-xAxisLineDropdown = pn.widgets.Select(name="X-axis date type for lineplot",
-                                      options = dateOptions,
-                                      value='trending_date')
-
-# periodRollup (for line) [radio button]
-#PeriodRollupRadio = pn.widgets.RadioButtonGroup(name="Granularity for lineplot",
-#                                                options=list(valid_time_rollups.keys()),
-#                                                button_type='primary')
-PeriodRollupRadio = pn.widgets.RadioBoxGroup(
-    name='Granularity for lineplot',
-    options=list(valid_time_rollups.keys()),
-    value='Weekly'
-)
-
-col1 = pn.Column(
-    pn.pane.Markdown("###Controls for entire dashboard"),
-    yAxisDropdown,
-    pn.pane.Markdown("---- Category Selection ----"),
-    categoryCheckbox,
-    sizing_mode="stretch_width")
-
-col2 = pn.Column(
-    pn.pane.Markdown("###Chart-specific controls"),
-    pn.pane.Markdown("---- Country Selection for Histogram ----"),
-    countryCheckbox,
-    binsField,
-    xAxisScatterDropdown,
-    xAxisLineDropdown,
-    pn.pane.Markdown("---- Rollup for Lineplot ----"),
-    PeriodRollupRadio,
-    submitButton,
-    sizing_mode="stretch_width")
-
-controlPanel = pn.Row(col1, col2)
-controlPanel
-
-
 # The widget layour looks pretty awesome! Now, let's create the actual interactive dashboard!
 # 
 # # Interactive Dashboard
@@ -1336,7 +1260,7 @@ controlPanel
 #@pn.depends(yAxisDropdown, categoryCheckbox,countryCheckbox,binsField,
 #            xAxisScatterDropdown,xAxisLineDropdown,PeriodRollupRadio)
 def create_interactive_dashboard(metric, catFilters, countryFilters, 
-                     bins, xAxisMetric, xAxisDate, periodRollup):
+                     bins, xAxisMetric, xAxisDate, periodRollup, controlPanel):
     """
     Constructs and returns an interactive Panel dashboard based on selected widget values.
 
@@ -1414,24 +1338,106 @@ def create_interactive_dashboard(metric, catFilters, countryFilters,
 
 # Defining an onSubmit event because it is a pain deselecting category buttons. 
 # Comment this code out and uncomment the code above to switch from event-based mode to reactive mdoe (which is kinda slow)
-def on_submit(event):
-	print("Submit fired!")
-	dashboard = create_interactive_dashboard(
-		metric=yAxisDropdown.value,
-		catFilters=categoryCheckbox.value,
-		countryFilters=countryCheckbox.value,
-		bins=binsField.value,
-		xAxisMetric=xAxisScatterDropdown.value,
-		xAxisDate=xAxisLineDropdown.value,
-		periodRollup=PeriodRollupRadio.value
+def get_interactive_dashboard_app():
+	pn.extension('plotly')
+	
+	# Widget definitions
+	
+
+	# define the y_axis metric [dropdown]
+	yAxisDropdown = pn.widgets.Select(name="Primary Metric", 
+									  options=valid_metrics, 
+									  value='log_views')
+
+	#catFilters [checkbox]
+	categoryCheckbox = pn.widgets.CheckBoxGroup(name='Categories',
+												options=valid_categories,
+												value=valid_categories)
+	# Because it's a pain if the dashboard keeps on refreshing when you select/deselect checkboxes
+	# I'll add a submit button
+	submitButton = pn.widgets.Button(name='Submit', button_type='primary')
+
+	#Plot Specific:
+	#country filter (for histogram) [checkbox]
+	countryCheckbox = pn.widgets.CheckBoxGroup(name="Countries (for histogram)",
+											   options=list(country_symbol_map.keys()),
+											   value=list(country_symbol_map.keys()))
+	#countryCheckbox = pn.widgets.MultiChoice(name="Countries (for histogram)",
+	#                                           options=list(country_symbol_map.keys()),
+	#                                           value=list(country_symbol_map.keys()))
+
+	# bins (for histogram) [BoundedIntText]
+	#binsField = pn.widgets.IntInput(name="Histogram bins",
+	#                                value=50,
+	#                                start=10,
+	#                                end=300)
+	binsField = pn.widgets.IntSlider(name="Histogram bins",
+									 start=10,
+									 end=300,
+									 value=50)
+
+	# x-axis metric (for scatter) [dropdown]
+	xAxisScatterDropdown = pn.widgets.Select(name="X-axis metric for scatterplot",
+									  options = valid_metrics,
+									  value='log_likes')
+
+
+	# x_axis date (for line) [dropdown]
+	xAxisLineDropdown = pn.widgets.Select(name="X-axis date type for lineplot",
+										  options = dateOptions,
+										  value='trending_date')
+
+	# periodRollup (for line) [radio button]
+	#PeriodRollupRadio = pn.widgets.RadioButtonGroup(name="Granularity for lineplot",
+	#                                                options=list(valid_time_rollups.keys()),
+	#                                                button_type='primary')
+	PeriodRollupRadio = pn.widgets.RadioBoxGroup(
+		name='Granularity for lineplot',
+		options=list(valid_time_rollups.keys()),
+		value='Weekly'
 	)
-	dashboard_container.objects = [dashboard]
+	# [2] Output container
+	dashboard_container = pn.Column()
 
-submitButton.on_click(on_submit)
-dashboard_container = pn.Column()
-on_submit(None)  # Renders once with default values
-dashboard_container.servable()
+	# [3] Control panel
+	controlPanel = pn.Row(
+		pn.Column(
+			pn.pane.Markdown("###Controls for entire dashboard"),
+			yAxisDropdown,
+			pn.pane.Markdown("---- Category Selection ----"),
+			categoryCheckbox,
+			sizing_mode="stretch_width"
+		),
+		pn.Column(
+			pn.pane.Markdown("###Chart-specific controls"),
+			pn.pane.Markdown("---- Country Selection for Histogram ----"),
+			countryCheckbox,
+			binsField,
+			xAxisScatterDropdown,
+			xAxisLineDropdown,
+			pn.pane.Markdown("---- Rollup for Lineplot ----"),
+			PeriodRollupRadio,
+			submitButton,
+			sizing_mode="stretch_width"
+		)
+	)
+	def on_submit(event):
+		dashboard = create_interactive_dashboard(
+			metric=yAxisDropdown.value,
+			catFilters=categoryCheckbox.value,
+			countryFilters=countryCheckbox.value,
+			bins=binsField.value,
+			xAxisMetric=xAxisScatterDropdown.value,
+			xAxisDate=xAxisLineDropdown.value,
+			periodRollup=PeriodRollupRadio.value,
+			controlPanel=controlPanel
+		)
+		dashboard_container.objects = [pn.Spacer(height=20), dashboard]
 
+	submitButton.on_click(on_submit)
+	on_submit(None)
+
+	return pn.Column(controlPanel, dashboard_container)
 
 # # Success!
 # So we got the interactive dashboard working within Jupyter. Huzzah!There are a l
