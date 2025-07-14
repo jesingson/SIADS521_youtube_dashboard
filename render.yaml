@@ -3,8 +3,10 @@ services:
     name: siads521-youtube-dashboard
     env: python
     plan: free
-    buildCommand: "pip install -r requirements.txt"
+    branch: main
+    buildCommand: pip install -r requirements.txt
     startCommand: panel serve main.py --address 0.0.0.0 --port 10000 --allow-websocket-origin=siads521-youtube-dashboard.onrender.com
     envVars:
       - key: BOKEH_ALLOW_WS_ORIGIN
         value: siads521-youtube-dashboard.onrender.com
+    healthCheckPath: /
