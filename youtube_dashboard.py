@@ -1415,6 +1415,7 @@ def create_interactive_dashboard(metric, catFilters, countryFilters,
 # Defining an onSubmit event because it is a pain deselecting category buttons. 
 # Comment this code out and uncomment the code above to switch from event-based mode to reactive mdoe (which is kinda slow)
 def on_submit(event):
+	print("Submit fired!")
     dashboard = create_interactive_dashboard(
         metric=yAxisDropdown.value,
         catFilters=categoryCheckbox.value,
