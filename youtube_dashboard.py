@@ -63,8 +63,6 @@
 # In[1]:
 
 
-get_ipython().system('pip install plotly==5.18.0 panel ipywidgets --upgrade')
-
 #!pip install plotly ipywidgets
 #!pip install plotly==5.18.0
 #!pip install jupyterlab_widgets ipywidgets ipykernel --upgrade
